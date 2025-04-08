@@ -16,6 +16,18 @@
 
   <script>
     window.name = "getTuxunLinkWindow";
+    window.addEventListener('message', function(event) {
+    // 可根据需要检查 event.origin，若不需要严格校验，可省略此步骤
+    if (typeof event.data === "string" && event.data.indexOf("link:") === 0) {
+      const receivedLink = event.data.substring(5);  // 去掉 "link:" 前缀
+      const linkInput = document.getElementById("link");
+      const sendBtn = document.querySelector("button");
+      if (linkInput && sendBtn) {
+        linkInput.value = receivedLink;
+        sendBtn.click();
+      }
+    }
+  });
     function sendLink() {
       const url = document.getElementById("link").value;
       if (!url.trim()) {
