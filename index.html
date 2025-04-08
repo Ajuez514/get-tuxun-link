@@ -1,6 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <script>
+  // 自动设置窗口名称，这样发送页面就能正确获取到此窗口
+  window.name = "getTuxunLinkWindow";
+  </script>
+  
   <meta charset="UTF-8">
   <title>给Ajuez送上爱</title>
   <style>
@@ -15,8 +20,8 @@
   <p id="status"></p>
 
   <script>
-    window.name = "getTuxunLinkWindow";
-    window.addEventListener('message', function(event) {
+  // 监听其他页面发送的消息
+  window.addEventListener('message', function(event) {
     // 可根据需要检查 event.origin，若不需要严格校验，可省略此步骤
     if (typeof event.data === "string" && event.data.indexOf("link:") === 0) {
       const receivedLink = event.data.substring(5);  // 去掉 "link:" 前缀
@@ -28,6 +33,9 @@
       }
     }
   });
+  </script>
+
+  <script>
     function sendLink() {
       const url = document.getElementById("link").value;
       if (!url.trim()) {
