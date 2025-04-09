@@ -2,45 +2,47 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>发送链接给我</title>
+  <title>拿来</title>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 30px; }
     input, button { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h2>📎 分享链接给我</h2>
-  <input type="text" id="link" placeholder="请输入链接">
+  <h2>📎 分享文本给我</h2>
+  <input type="text" id="link" placeholder="请输入文本">
   <button onclick="sendLink()">发送</button>
   <p id="status"></p>
 
   <script>
-    function sendLink() {
-      const url = document.getElementById("link").value;
-      if (!url.trim()) {
-        document.getElementById("status").innerText = "请先输入链接。";
-        return;
-      }
-
-      const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";
-      const chatId = 6716794732;
-
-      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          chat_id: chatId,
-          text: `📨 朋友分享的链接：\n${url}`
-        })
-      }).then(res => {
-        if (res.ok) {
-          document.getElementById("status").innerText = "✅ 链接已发送！";
-        } else {
-          document.getElementById("status").innerText = "❌ 发送失败。";
-        }
-      });
+  function sendLink() {
+    const url = document.getElementById("link").value;
+    if (!url.trim()) {
+      document.getElementById("status").innerText = "请输入文本。";
+      return;
     }
-  </script>
+
+    const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";
+    const chatId = 6716794732;
+
+    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: chatId,
+        text: `${url}`
+      })
+    }).then(res => {
+      if (res.ok) {
+        document.getElementById("status").innerText = "✅ 已发送！";
+        document.getElementById("link").value = "";  // 清空输入框 ✅
+      } else {
+        document.getElementById("status").innerText = "❌ 发送失败。";
+      }
+    });
+  }
+</script>
+
 </body>
 </html>
 
