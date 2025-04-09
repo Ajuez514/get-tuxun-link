@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>拿来</title>
+  <title>SendToKoiShi</title>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 30px; }
     input, button { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; }
@@ -10,21 +10,32 @@
 </head>
 <body>
   <h2>📎 分享文本给我</h2>
-  <input type="text" id="link" placeholder="请输入文本">
+  <input type="text" id="link" placeholder="请输入文本" onkeypress="handleKeyPress(event)">
   <button onclick="sendLink()">发送</button>
   <p id="status"></p>
 
   <script>
+
+  function handleKeyPress(e) {
+    if(e.keyCode === 13) {
+      sendLink();
+    }
+  }
+
   function sendLink() {
     const url = document.getElementById("link").value;
+    const statusEl = document.getElementById("status");
+    
     if (!url.trim()) {
-      document.getElementById("status").innerText = "请输入文本。";
+      statusEl.innerText = "请输入文本。";
       return;
     }
 
     const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";
     const chatId = 6716794732;
 
+    statusEl.innerText = "🔄 发送中...";
+    
     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -34,15 +45,15 @@
       })
     }).then(res => {
       if (res.ok) {
-        document.getElementById("status").innerText = "✅ 已发送！";
-        document.getElementById("link").value = "";  // 清空输入框 ✅
+        statusEl.innerText = "✅ 已发送！";
+        document.getElementById("link").value = "";
       } else {
-        document.getElementById("status").innerText = "❌ 发送失败。";
+        statusEl.innerText = "❌ 发送失败。";
       }
+    }).catch(() => {
+      statusEl.innerText = "⚠️ 网络连接异常";
     });
   }
-</script>
-
+  </script>
 </body>
 </html>
-
