@@ -1,39 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <script>
-  // 自动设置窗口名称，这样发送页面就能正确获取到此窗口
-  window.name = "getTuxunLinkWindow";
-  </script>
-  
   <meta charset="UTF-8">
-  <title>给Ajuez送上爱</title>
+  <title>发送链接给我</title>
   <style>
     body { font-family: sans-serif; text-align: center; padding: 30px; }
     input, button { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; }
   </style>
 </head>
 <body>
-  <h2>📎 把链接给我</h2>
+  <h2>📎 分享链接给我</h2>
   <input type="text" id="link" placeholder="请输入链接">
   <button onclick="sendLink()">发送</button>
   <p id="status"></p>
-
-  <script>
-  // 监听其他页面发送的消息
-  window.addEventListener('message', function(event) {
-    // 可根据需要检查 event.origin，若不需要严格校验，可省略此步骤
-    if (typeof event.data === "string" && event.data.indexOf("link:") === 0) {
-      const receivedLink = event.data.substring(5);  // 去掉 "link:" 前缀
-      const linkInput = document.getElementById("link");
-      const sendBtn = document.querySelector("button");
-      if (linkInput && sendBtn) {
-        linkInput.value = receivedLink;
-        sendBtn.click();
-      }
-    }
-  });
-  </script>
 
   <script>
     function sendLink() {
@@ -64,3 +43,4 @@
   </script>
 </body>
 </html>
+
