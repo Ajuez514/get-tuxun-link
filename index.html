@@ -1,7 +1,6 @@
 <html>
  <head>
    <meta charset="UTF-8">
-   <title>拿来</title>
    <title>SendToKoiShi</title>
    <style>
      body { font-family: sans-serif; text-align: center; padding: 30px; }
@@ -16,31 +15,34 @@
  
    <script>
    function handleKeyPress(e) {
+     // 如果按下的是回车键（keyCode 13），就调用 sendLink 函数
      if(e.keyCode === 13) {
        sendLink();
      }
    }
 
    function sendLink() {
-     const url = document.getElementById("link").value;
-     const statusEl = document.getElementById("status");
+     const url = document.getElementById("link").value;  // 获取用户输入的文本
+     const statusEl = document.getElementById("status");  // 获取显示状态的元素
      
+     // 检查输入框是否为空
      if (!url.trim()) {
        statusEl.innerText = "请输入文本。";
        return;
      }
 
-     const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";
-     const channelId = "@ajuezandbot";  // 这里替换为你的频道 ID
- 
+     const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";  // 你的 Bot Token
+     const channelId = "@ajuezandbot";  // 你的频道的 chat_id（@ 开头）
+
      statusEl.innerText = "🔄 发送中...";
      
+     // 使用 fetch API 发送请求给 Telegram Bot API
      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
        method: "POST",
        headers: { "Content-Type": "application/json" },
        body: JSON.stringify({
-         chat_id: channelId,  // 发送到频道
-         text: url
+         chat_id: channelId,  // 发送到指定的频道
+         text: url            // 发送用户输入的文本
        })
      }).then(res => {
        if (res.ok) {
@@ -54,6 +56,5 @@
      });
    }
  </script>
- 
  </body>
 </html>
