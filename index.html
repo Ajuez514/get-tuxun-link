@@ -1,59 +1,60 @@
-<!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>SendToKoiShi</title>
-  <style>
-    body { font-family: sans-serif; text-align: center; padding: 30px; }
-    input, button { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; }
-  </style>
-</head>
-<body>
-  <h2>📎 分享文本给我</h2>
-  <input type="text" id="link" placeholder="请输入文本" onkeypress="handleKeyPress(event)">
-  <button onclick="sendLink()">发送</button>
-  <p id="status"></p>
+ <head>
+   <meta charset="UTF-8">
+   <title>拿来</title>
+   <title>SendToKoiShi</title>
+   <style>
+     body { font-family: sans-serif; text-align: center; padding: 30px; }
+     input, button { padding: 10px; width: 80%; margin: 10px 0; font-size: 16px; }
+   </style>
+ </head>
+ <body>
+   <h2>📎 分享文本给我</h2>
+   <input type="text" id="link" placeholder="请输入文本">
+   <input type="text" id="link" placeholder="请输入文本" onkeypress="handleKeyPress(event)">
+   <button onclick="sendLink()">发送</button>
+   <p id="status"></p>
+ 
+   <script>
+   function handleKeyPress(e) {
+     if(e.keyCode === 13) {
+       sendLink();
+     }
+   }
 
-  <script>
+   function sendLink() {
+     const url = document.getElementById("link").value;
+     const statusEl = document.getElementById("status");
+     
+     if (!url.trim()) {
+       statusEl.innerText = "请输入文本。";
+       return;
+     }
 
-  function handleKeyPress(e) {
-    if(e.keyCode === 13) {
-      sendLink();
-    }
-  }
-
-  function sendLink() {
-    const url = document.getElementById("link").value;
-    const statusEl = document.getElementById("status");
-    
-    if (!url.trim()) {
-      statusEl.innerText = "请输入文本。";
-      return;
-    }
-
-    const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";
-    const chatId = 6716794732;
-
-    statusEl.innerText = "🔄 发送中...";
-    
-    fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: chatId,
-        text: `${url}`
-      })
-    }).then(res => {
-      if (res.ok) {
-        statusEl.innerText = "✅ 已发送！";
-        document.getElementById("link").value = "";
-      } else {
-        statusEl.innerText = "❌ 发送失败。";
-      }
-    }).catch(() => {
-      statusEl.innerText = "⚠️ 网络连接异常";
-    });
-  }
-  </script>
-</body>
+     const botToken = "7516817008:AAEsO4y4z-7cFzF8DBiqZGdRUp__nLp5Shs";
+     const channelId = "@ajuezandbot";  // 这里替换为你的频道 ID
+ 
+     statusEl.innerText = "🔄 发送中...";
+     
+     fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+       method: "POST",
+       headers: { "Content-Type": "application/json" },
+       body: JSON.stringify({
+         chat_id: channelId,  // 发送到频道
+         text: url
+       })
+     }).then(res => {
+       if (res.ok) {
+         statusEl.innerText = "✅ 已发送！";
+         document.getElementById("link").value = "";  // 清空输入框
+       } else {
+         statusEl.innerText = "❌ 发送失败。";
+       }
+     }).catch(() => {
+       statusEl.innerText = "⚠️ 网络连接异常";
+     });
+   }
+ </script>
+ 
+ </body>
 </html>
